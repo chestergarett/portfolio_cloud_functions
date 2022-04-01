@@ -1,11 +1,11 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const User = require('./config/config');
+const { User } = require('./db/db');
 const app = express();
 
 app.use(express.json())
 app.use(cors())
+require('./startup/routes')(app);
 
 app.get('/users', async(req,res) => {
     const snapshot = await User.get();
