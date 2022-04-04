@@ -26,14 +26,23 @@ router.post('/update', async(req,res)=>{
     const { error } = validate_update(data);
     if (error) return res.status(400).send(error.details.map(detail => detail.message));
 
-    await Education.doc(id).update(data);
-    res.send({data: 'Successfully updated education.'});
+    try {
+        await Education.doc(id).update(data)
+        res.send({data: 'Successfully updated education.'})
+    } catch (e) {
+        res.status(500).send({data: 'Document not found.'})
+    }
 })
 
 router.post('/delete', async(req,res)=>{
     const id = req.body.id;
-    await Education.doc(id).delete();
-    res.send({data: 'Successfully deleted education.'});
+
+    try {
+        await Education.doc(id).delete();
+        res.send({data: 'Successfully deleted education.'});
+    }catch(e){
+        res.status(500).send({data: 'Document not found.'})
+    }
 })
 
 module.exports = router;

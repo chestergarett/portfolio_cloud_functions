@@ -26,20 +26,18 @@ router.post('/update', async(req,res)=>{
     const { error } = validate_update(data);
     if (error) return res.status(400).send(error.details.map(detail => detail.message));
 
-    await Licenses.doc(id)
-        .update(data)
-        .then(success => res.send({data: 'Successfully updated license.'}))
-        .catch(err => res.status(500).send({error: err.code }))
+    try {
+        await Licenses.doc(id).update(data)
+        res.send({data: 'Successfully updated license.'})
+    } catch (e) {
+        res.status(500).send({data: 'Document not found.'})
+    }
 })
 
 router.post('/delete', async(req,res)=>{
     const id = req.body.id;
     
-
-    await Licenses.doc(id)
-        .delete()
-        .then(success => res.send({data: 'Successfully deleted license.'}))
-        .catch(err => res.status(500).send({error: 'Error found.' }))
+    await Licenses.doc(id).delete()
 });
 
 module.exports = router;

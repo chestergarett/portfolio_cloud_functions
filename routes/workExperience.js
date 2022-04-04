@@ -25,9 +25,13 @@ router.post('/update',async(req,res)=>{
   const data = req.body;
   const { error } = validate_update(data);
   if (error) return res.status(400).send(error.details.map(detail => detail.message));
-  
-  await WorkExperience.doc(id).update(data);
-  res.send({data: 'Successfully updated work experience.'});
+
+  try {
+    await WorkExperience.doc(id).update(data);
+    res.send({data: 'Successfully updated work experience.'})    
+} catch (e) {
+    res.status(500).send({data: 'Document not found.'})
+}   
 })
 
 router.post('/delete', async(req,res)=>{
