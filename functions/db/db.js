@@ -1,8 +1,8 @@
-const firebase = require('firebase');
-const firebaseConfig = require('../config/config');
+const { initializeApp } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore')
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+initializeApp();
+const db = getFirestore();
 const User = db.collection('Users');
 const WorkExperience = db.collection('WorkExperience');
 const Education = db.collection('Education');
