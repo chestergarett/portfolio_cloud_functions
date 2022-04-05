@@ -12,4 +12,4 @@ module.exports = function(app){
     app.use('/api/education', education);
     app.use('/api/licenses', licenses);
     app.use('/api/skills', skills);
-}   
+}
